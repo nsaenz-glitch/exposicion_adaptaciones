@@ -379,7 +379,11 @@ function guardarStats(){ try{ localStorage.setItem(CLAVE_STATS, JSON.stringify(s
 /* ===== Envío a Google Forms (hoja en Drive) ===== */
 const FORM_ACTION = 'https://docs.google.com/forms/d/e/1FAIpQLSdOUsnteRUaydMDRS5GhJWUJHKpdyAwyPcx8q2j3Rh9Oos3FA/formResponse';
 const CAMPO = { accion:'entry.1144601235', libro:'entry.979068160', pizarra:'entry.314910438' };
-const PIZARRA = 'Pizarra 1';   /* <-- cambia este nombre por cada equipo/pantalla */
+/* Origen del registro: se toma de la URL (?origen=...); por defecto 'Pizarra 1'.
+   - Pizarra:  .../exposicion_adaptaciones/            -> 'Pizarra 1'
+   - LibGuides:.../exposicion_adaptaciones/?origen=LibGuides -> 'LibGuides' */
+let PIZARRA = 'Pizarra 1';
+try{ const _o = new URLSearchParams(location.search).get('origen'); if(_o) PIZARRA = _o; }catch(e){}
 const CLAVE_COLA = 'ulima_expo_cola_v1';
 let cola = [];
 try{ const r = localStorage.getItem(CLAVE_COLA); if(r) cola = JSON.parse(r); }catch(e){}
